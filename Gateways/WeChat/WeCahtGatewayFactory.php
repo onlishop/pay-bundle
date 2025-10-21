@@ -6,5 +6,4 @@ use Onlishop\Bundle\PayBundle\GatewayFactory;
 
 class WeCahtGatewayFactory extends GatewayFactory
 {
-
 }

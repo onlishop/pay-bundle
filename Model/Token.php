@@ -2,7 +2,6 @@
 
 namespace Onlishop\Bundle\PayBundle\Model;
 
-
 use Onlishop\Bundle\PayBundle\Security\TokenInterface;
 use Onlishop\Bundle\PayBundle\Security\Util\Random;
 use Onlishop\Bundle\PayBundle\Storage\IdentityInterface;

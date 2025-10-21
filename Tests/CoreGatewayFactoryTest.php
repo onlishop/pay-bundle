@@ -8,12 +8,12 @@ use PHPUnit\Framework\TestCase;
 
 class CoreGatewayFactoryTest extends TestCase
 {
- public function testShouldAllowCreateGatewayWithoutAnyOptions(): void
+    public function testShouldAllowCreateGatewayWithoutAnyOptions(): void
     {
         $factory = new CoreGatewayFactory();
 
         $gateway = $factory->createGateway((new ContainerBuilder())->build());
 
-       static::assertNotNull($gateway);
+        static::assertNotNull($gateway);
     }
 }

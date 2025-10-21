@@ -2,8 +2,6 @@
 
 namespace Onlishop\Bundle\PayBundle\Security;
 
-
-
 use Onlishop\Bundle\PayBundle\Model\DetailsAggregateInterface;
 use Onlishop\Bundle\PayBundle\Model\DetailsAwareInterface;
 use Onlishop\Bundle\PayBundle\Storage\IdentityInterface;

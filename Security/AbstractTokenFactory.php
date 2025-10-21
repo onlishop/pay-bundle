@@ -2,11 +2,10 @@
 
 namespace Onlishop\Bundle\PayBundle\Security;
 
-use Onlishop\Bundle\PayBundle\Registry\StorageRegistryInterface;
-use Onlishop\Bundle\PayBundle\Security\TokenFactoryInterface;
-use Onlishop\Bundle\PayBundle\Security\Util\Random;
 use League\Uri\Components\Query;
 use League\Uri\Http as HttpUri;
+use Onlishop\Bundle\PayBundle\Registry\StorageRegistryInterface;
+use Onlishop\Bundle\PayBundle\Security\Util\Random;
 use Onlishop\Bundle\PayBundle\Storage\IdentityInterface;
 use Onlishop\Bundle\PayBundle\Storage\StorageInterface;
 

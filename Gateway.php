@@ -4,9 +4,9 @@ namespace Onlishop\Bundle\PayBundle;
 
 use Onlishop\Bundle\PayBundle\Action\ActionInterface;
 use Onlishop\Bundle\PayBundle\Exception\RequestNotSupportedException;
+use Onlishop\Bundle\PayBundle\Extension\Context;
 use Onlishop\Bundle\PayBundle\Extension\ExtensionCollection;
 use Onlishop\Bundle\PayBundle\Extension\ExtensionInterface;
-use Onlishop\Bundle\PayBundle\Extension\Context;
 use Onlishop\Bundle\PayBundle\Reply\ReplyInterface;
 
 class Gateway implements GatewayInterface

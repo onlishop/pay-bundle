@@ -2,7 +2,6 @@
 
 namespace Onlishop\Bundle\PayBundle\Extension;
 
-
 use Onlishop\Bundle\PayBundle\Model\ModelAggregateInterface;
 use Onlishop\Bundle\PayBundle\Storage\IdentityInterface;
 use Onlishop\Bundle\PayBundle\Storage\StorageInterface;

@@ -2,8 +2,6 @@
 
 namespace Onlishop\Bundle\PayBundle\Model;
 
-
-
 use Onlishop\Bundle\PayBundle\Security\CryptedInterface;
 use Onlishop\Bundle\PayBundle\Security\CypherInterface;
 

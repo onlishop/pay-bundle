@@ -12,12 +12,12 @@ abstract class Generic implements ModelAggregateInterface, ModelAwareInterface
     protected mixed $model;
 
     protected mixed $firstModel = null;
+
     protected ?TokenInterface $token = null;
 
     public function __construct(
         mixed $model,
-    )
-    {
+    ) {
         $this->setModel($model);
         if ($model instanceof TokenInterface) {
             $this->token = $model;

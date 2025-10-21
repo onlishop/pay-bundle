@@ -2,7 +2,6 @@
 
 namespace Onlishop\Bundle\PayBundle\Exception;
 
-
 class LogicException extends \LogicException implements ExceptionInterface
 {
 }

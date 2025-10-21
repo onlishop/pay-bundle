@@ -2,7 +2,6 @@
 
 namespace Onlishop\Bundle\PayBundle\Bridge\Spl;
 
-
 use Onlishop\Bundle\PayBundle\Exception\LogicException;
 use Onlishop\Bundle\PayBundle\Security\SensitiveValue;
 

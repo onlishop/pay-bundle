@@ -2,7 +2,6 @@
 
 namespace Onlishop\Bundle\PayBundle\Model;
 
-
 use Onlishop\Bundle\PayBundle\Storage\IdentityInterface;
 
 class Identity implements IdentityInterface, \Stringable
