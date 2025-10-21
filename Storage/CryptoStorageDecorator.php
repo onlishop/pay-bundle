@@ -3,6 +3,8 @@
 namespace Onlishop\Bundle\PayBundle\Storage;
 
 
+use Onlishop\Bundle\PayBundle\Security\CypherInterface;
+
 /**
  * @template T of object
  *

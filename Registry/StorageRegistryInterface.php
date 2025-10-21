@@ -2,6 +2,8 @@
 
 namespace Onlishop\Bundle\PayBundle\Registry;
 
+use Onlishop\Bundle\PayBundle\Storage\StorageInterface;
+
 /**
  * @template T of object
  */
@@ -19,7 +21,7 @@ interface StorageRegistryInterface
     /**
      * The key must be a model class
      *
-     * @return StorageInterface
+     * @return array<class-string, StorageInterface<T>>
      */
     public function getStorages(): array;
 }

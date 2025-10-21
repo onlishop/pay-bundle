@@ -7,6 +7,8 @@ use Onlishop\Bundle\PayBundle\Bridge\Spl\ArrayObject;
 use Onlishop\Bundle\PayBundle\DI\ContainerConfiguration;
 use Onlishop\Bundle\PayBundle\Exception\LogicException;
 use Onlishop\Bundle\PayBundle\Extension\StorageExtension;
+use Onlishop\Bundle\PayBundle\Gateways\Alipay\AlipayGatewayFactory;
+use Onlishop\Bundle\PayBundle\Gateways\WeChat\WeCahtGatewayFactory;
 use Onlishop\Bundle\PayBundle\Model\GatewayConfigInterface;
 use Onlishop\Bundle\PayBundle\Model\Token;
 use Onlishop\Bundle\PayBundle\Registry\DynamicRegistry;
@@ -116,7 +118,6 @@ class PayBuilder
             foreach ($this->gatewayConfigs as $name => $gatewayConfig) {
                 $containerBuilder = new ContainerBuilder();
 
-                $gatewayConfig['gateway_name'] = $name;
                 $containerBuilder->addDefinitions($gatewayConfig);
                 $containerBuilder->addDefinitions([
                     'pay.security.token_storage' => fn () => $this->tokenStorage,
@@ -302,6 +303,7 @@ class PayBuilder
     {
         $map = [
             'wechat' => WeCahtGatewayFactory::class,
+            'alipay' => AlipayGatewayFactory::class,
         ];
 
         $gatewayFactories = [];

@@ -35,26 +35,26 @@ class CoreGatewayFactory implements ContainerConfiguration, GatewayFactoryConfig
 
     public function createGateway(
         ContainerInterface $container,
-        ?GatewayFactoryConfigInterface $gatewayFactoryConfig = null
-    ): Gateway {
+    ): Gateway
+    {
+
         $gateway = new Gateway();
 
-        $allActions = array_merge($this->getActions(), $gatewayFactoryConfig?->getActions() ?? []);
-        foreach ($allActions as $action) {
-            if (\is_string($action)) {
+        foreach ($this->getActions() as $action) {
+            if (is_string($action)) {
                 $action = $container->get($action);
             }
+
             $gateway->addAction($action, $action instanceof PrependActionInterface);
         }
 
-        $allExtensions = array_merge($this->getExtensions(), $gatewayFactoryConfig?->getExtensions() ?? []);
-        foreach ($allExtensions as $extension) {
-            if (\is_string($extension)) {
+        foreach ($this->getExtensions() as $extension) {
+            if (is_string($extension)) {
                 $extension = $container->get($extension);
             }
+
             $gateway->addExtension($extension, $extension instanceof PrependExtensionInterface);
         }
-
         return $gateway;
     }
 
