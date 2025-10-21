@@ -2,7 +2,6 @@
 
 namespace Onlishop\Bundle\PayBundle\Action;
 
-
 use Onlishop\Bundle\PayBundle\Exception\LogicException;
 use Onlishop\Bundle\PayBundle\Exception\RequestNotSupportedException;
 use Onlishop\Bundle\PayBundle\Model\Identity;

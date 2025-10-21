@@ -1,0 +1,36 @@
+parameters:
+    locale:            'zh'
+    secret:            'ThisTokenIsNotSoSecretChangeIt'
+
+framework:
+    test: ~
+    secret:          '%secret%'
+    default_locale:  '%locale%'
+    form:            false
+    csrf_protection: true
+    assets: false
+    session:
+      enabled: true
+      storage_factory_id: 'session.storage.factory.mock_file'
+
+pay:
+    storages:
+        Onlishop\Bundle\PayBundle\Model\ArrayObject:
+            filesystem:
+                storage_dir: '%kernel.cache_dir%'
+                id_property: 'id'
+
+    security:
+        token_storage:
+            Onlishop\Bundle\PayBundle\Model\Token:
+                filesystem:
+                    id_property: 'hash'
+                    storage_dir: '%kernel.cache_dir%'
+
+    gateways:
+        alipay:
+            sandbox: true
+            factory: alipay
+            app_id: '90211112149657375'
+            private_key: 'MIIEogIBAAKBAQEAgGg8KcP71i96wbgSOoj/t3py6ei/iBTGQtQgIjYV8h/hpAEwtYTM53rGfUT8K46sGEGdc6ikM4waJYVICraAr5vZyazSmrGOdriHresF2CLTj9OWC/aabTMvkgrHN7i4loHOJrF34EKFeYtGRyzjVLtdL9JeTCW6Xd+ODs/+9gFL6aIvOaDd53lLu6m6HumqSZjZbLlgKuO2Hn0CbbPKt3zukRNRpMV7EiQHz9xgkWcw831GoMy514jTwWa9ESqE4XW6diy0zkUZqEV1gh2g0OYhq+0Vxxdbu3B1sSLp6k+tvzIZpWem/JyrLt4VdbqGkTEbjssfPeJ+uFqxiI/d4QIDAQABAoIBABx2fne1q8oTZjOQmMHO4lgKVXSR+fqxGC1yFdlfgcfU11BiTyi9UioxZdQYuYjyLCWITd14UUV31cfhXlG5mJbUhhcVLu3JU9nvF2wuv3Hkbl7gOM9YD20LPo0xxG0OjiQWi9q51eeo9ys0+xQF2DJNAd/60powdroeNsADzPE8jaTOn7DCheYYQ6m+hEh2TfP8f1sZWl9tBfBk3bXCdqAY/PgLyooBVGBKUTer6MlooFeM+N+9w/I+HwHTZmARl6wGnfn065FDh5tvm8rnkDjgtUeofTKD+3XNOaBP0O5ARhk3rKjxb0ZSewH2fKCPyZcDq/cNnZCfodU3aM4vcAECgYEA+zvsPmb8mZOivs6f6MO4arl+cPDXFSJS4G6HAyBE/LdjyuCZ++s5HmcDBd+EPfo5hQJes5RJu4aVpMjQjoxG1eoElNrz7UB2SS6TvFBdaLDIqSxF+UFrKPrt+XbTHbVGkqkrUQB3sPzQ2QwU3/zWRxLK5A6lsslTcfFOp5EW+YECgYEAgtfSzCBVuuW/k0CQrmTSSq1vusUTIkth/PFO3XBbd1djeCcYIyJ03VqHmJMwtLEg/OnafeO0ZPdf0ievHSKcLS9Dt2dTZcyqRJJzKPbDNnqSaO6AYUjWTGn4y1M40FjkuiMEp1O/3Z04lIm1nrrPPU/jpzIoMnS2wz353rF9VGECgYBwwPsNIqF5t6XR5uAj0jthQrD5tU2Cga4aZeCYSZJMrW3PLrBNPMuc1nSn3SH3wuavyFmCVSomTIe6thnL8C8WcHnv6LiTIVw1Cf9qA9N4Weck7ebVsEOM19mYHXkwmxv6VIxJRWFygHSnBOIViN8OdOO0KNK7A9o8iCVZ1ScvgQKBgHGT2UcaNnDzaFXxcOYBXM44OUmeMtrNJvUDnxr3ol44/H5bKUeubFWNdTELa/cd3u3MLb6jv375gTMTAZ4/4eQTKCv3RFyUyaSWn+KKObB7u8XcapKIQIW6Y55T0niBAaNWLH73YxCDno7J718m+ChXxdzn3B7YU6Gtlc4qsglhAoGAFfpNaTdRGoeA+9AU7kjhpociH8xFv8CIsc+r5H9/VDXRA+V1OtZXjB40np7+Ahhzuch1vTULch/A0unE+b5R8uzGwjZAiLsWJG0gyfF80gKkmneijWD2WJv++M2XraNZjnru/LCTwDZgI919AzyyEVBm7eTqC6krap46n2bKP8c='
+            alipay_public_key: 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4QFGqrFHDQGlgLwqir7AdHEIfIzXw7vn/WH5xWvL72j0gCygtLUWwrYe2mEtW12KBGu3CG+5kRuHC/ND7WgkhtdpXzMjG8YiVXFHVJqZVzD8DLR0PLC54av2A9QM4R7lcP8TmXMOdnFbeB6pN71u0ipPvNS8q9K4Os+jOZJyJbnjg99UHVkCLAgQ9gQB44A0BLNZ7YHaM7rwkhy8PvOPEBTVACPDjnpIC0Ma/M06OfBj8WeXZJK3pad92BI5wPCL6b61Z9hi2hXnVXNhKIS1dhRUH5fjoPo2nOOTUKV/anY5Xb9lZbDxN5Ypy+8yYMVvIItwPTO1GCffEoXSgHlT9QIDAQAB'

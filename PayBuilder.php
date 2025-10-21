@@ -7,7 +7,6 @@ use Onlishop\Bundle\PayBundle\Bridge\Spl\ArrayObject;
 use Onlishop\Bundle\PayBundle\DI\ContainerConfiguration;
 use Onlishop\Bundle\PayBundle\Exception\LogicException;
 use Onlishop\Bundle\PayBundle\Extension\StorageExtension;
-use Onlishop\Bundle\PayBundle\Gateways\WeChat\WeCahtGatewayFactory;
 use Onlishop\Bundle\PayBundle\Model\GatewayConfigInterface;
 use Onlishop\Bundle\PayBundle\Model\Token;
 use Onlishop\Bundle\PayBundle\Registry\DynamicRegistry;
@@ -15,7 +14,6 @@ use Onlishop\Bundle\PayBundle\Registry\FallbackRegistry;
 use Onlishop\Bundle\PayBundle\Registry\RegistryInterface;
 use Onlishop\Bundle\PayBundle\Registry\SimpleRegistry;
 use Onlishop\Bundle\PayBundle\Registry\StorageRegistryInterface;
-use Onlishop\Bundle\PayBundle\Security\TokenFactory;
 use Onlishop\Bundle\PayBundle\Security\TokenFactoryInterface;
 use Onlishop\Bundle\PayBundle\Security\TokenInterface;
 use Onlishop\Bundle\PayBundle\Storage\FilesystemStorage;
@@ -28,11 +26,6 @@ use Onlishop\Bundle\PayBundle\Storage\StorageInterface;
  */
 class PayBuilder
 {
-    /**
-     * @var TokenFactoryInterface|callable|null
-     */
-    protected $tokenFactory;
-
     /**
      * @var StorageInterface<object>[]
      */
@@ -88,6 +81,11 @@ class PayBuilder
      */
     protected array $genericTokenFactoryPaths = [];
 
+    public function __construct(
+        protected TokenFactoryInterface $tokenFactory,
+    ) {
+    }
+
     /**
      * @throws \Exception
      *
@@ -100,13 +98,10 @@ class PayBuilder
         }
 
         $coreGatewayFactory = $this->buildCoreGatewayFactory(array_replace_recursive([
-            'pay.security.token_storage' => $this->tokenStorage,
+            TokenFactoryInterface::class => $this->tokenStorage,
         ], $this->coreGatewayFactoryConfig));
 
-        $gatewayFactories = array_replace(
-            $this->buildGatewayFactories($coreGatewayFactory),
-            $this->buildAddedGatewayFactories($coreGatewayFactory)
-        );
+        $gatewayFactories = $this->buildAddedGatewayFactories($coreGatewayFactory);
 
         $gatewayFactories['core'] = $coreGatewayFactory;
 
@@ -119,7 +114,7 @@ class PayBuilder
 
                 $containerBuilder->addDefinitions($gatewayConfig);
                 $containerBuilder->addDefinitions([
-                    'pay.security.token_storage' => fn () => $this->tokenStorage,
+                    TokenFactoryInterface::class => fn () => $this->tokenStorage,
                 ]);
 
                 $factoryName = $gatewayConfig['factory'];
@@ -293,48 +288,6 @@ class PayBuilder
         }
 
         return $gatewayFactories;
-    }
-
-    /**
-     * @return ContainerConfiguration[]
-     */
-    protected function buildGatewayFactories(ContainerConfiguration $coreGatewayFactory): array
-    {
-        $map = [
-            'wechat' => WeCahtGatewayFactory::class,
-        ];
-
-        $gatewayFactories = [];
-
-        foreach ($map as $name => $factoryClass) {
-            if (class_exists($factoryClass)) {
-                $gatewayFactories[$name] = new $factoryClass(
-                    $this->gatewayFactoryConfigs[$name] ?? [],
-                    $coreGatewayFactory
-                );
-            }
-        }
-
-        return $gatewayFactories;
-    }
-
-    /**
-     * @param StorageInterface<TokenInterface> $tokenStorage
-     * @param StorageRegistryInterface<StorageInterface<TokenInterface>> $storageRegistry
-     */
-    protected function buildTokenFactory(StorageInterface $tokenStorage, StorageRegistryInterface $storageRegistry): TokenFactoryInterface
-    {
-        $tokenFactory = $this->tokenFactory;
-
-        if (\is_callable($tokenFactory)) {
-            $tokenFactory = $tokenFactory($tokenStorage, $storageRegistry);
-
-            if (!$tokenFactory instanceof TokenFactoryInterface) {
-                throw new LogicException('Builder returned invalid instance');
-            }
-        }
-
-        return $tokenFactory ?: new TokenFactory($tokenStorage, $storageRegistry);
     }
 
     /**

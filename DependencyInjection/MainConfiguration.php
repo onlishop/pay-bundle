@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace HeyPay\Bundle\PayBundle\DependencyInjection;
+namespace Onlishop\Bundle\PayBundle\DependencyInjection;
 
-use HeyPay\Bundle\PayBundle\Core\Exception\LogicException;
-use HeyPay\Bundle\PayBundle\Core\Model\GatewayConfigInterface;
-use HeyPay\Bundle\PayBundle\Core\Security\TokenInterface;
-use HeyPay\Bundle\PayBundle\DependencyInjection\Factory\Storage\StorageFactoryInterface;
+use Onlishop\Bundle\PayBundle\DependencyInjection\Factory\Storage\StorageFactoryInterface;
+use Onlishop\Bundle\PayBundle\Exception\LogicException;
+use Onlishop\Bundle\PayBundle\Model\GatewayConfigInterface;
+use Onlishop\Bundle\PayBundle\Security\TokenInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -144,7 +144,7 @@ class MainConfiguration implements ConfigurationInterface
 
                     $rc = new \ReflectionClass($key);
                     if ($rc->implementsInterface(TokenInterface::class) === false) {
-                        throw new LogicException('The token class must implement `HeyPay\Bundle\PayBundle\Core\Security\TokenInterface` interface');
+                        throw new LogicException('The token class must implement `Onlishop\Bundle\PayBundle\Security\TokenInterface` interface');
                     }
 
                     if (\count($v) > 1) {

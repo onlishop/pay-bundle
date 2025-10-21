@@ -1,15 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace HeyPay\Bundle\PayBundle\DependencyInjection;
+namespace Onlishop\Bundle\PayBundle\DependencyInjection;
 
-use HeyPay\Bundle\PayBundle\Core\Bridge\Defuse\Security\DefuseCypher;
-use HeyPay\Bundle\PayBundle\Core\Exception\InvalidArgumentException;
-use HeyPay\Bundle\PayBundle\Core\Exception\LogicException;
-use HeyPay\Bundle\PayBundle\Core\Registry\DynamicRegistry;
-use HeyPay\Bundle\PayBundle\Core\Storage\CryptoStorageDecorator;
-use HeyPay\Bundle\PayBundle\DependencyInjection\Factory\Storage\FilesystemStorageFactory;
-use HeyPay\Bundle\PayBundle\DependencyInjection\Factory\Storage\StorageFactoryInterface;
-use HeyPay\Bundle\PayBundle\ReplyToSymfonyResponseConverter;
+use Onlishop\Bundle\PayBundle\DependencyInjection\Factory\Storage\FilesystemStorageFactory;
+use Onlishop\Bundle\PayBundle\DependencyInjection\Factory\Storage\StorageFactoryInterface;
+use Onlishop\Bundle\PayBundle\Exception\InvalidArgumentException;
+use Onlishop\Bundle\PayBundle\Exception\LogicException;
+use Onlishop\Bundle\PayBundle\Registry\DynamicRegistry;
+use Onlishop\Bundle\PayBundle\ReplyToSymfonyResponseConverter;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -93,18 +91,6 @@ class PayExtension extends Extension implements PrependExtensionInterface
             );
 
             $container->setDefinition('pay.dynamic_gateways.config_storage', new ChildDefinition($configStorage));
-        }
-
-        if (isset($dynamicGatewaysConfig['encryption']['defuse_secret_key'])) {
-            $container->register('pay.dynamic_gateways.cypher', DefuseCypher::class)
-                ->addArgument($dynamicGatewaysConfig['encryption']['defuse_secret_key'])
-            ;
-            $container->register('pay.dynamic_gateways.encrypted_config_storage', CryptoStorageDecorator::class)
-                ->setPublic(false)
-                ->setDecoratedService('pay.dynamic_gateways.config_storage')
-                ->addArgument(new Reference('pay.dynamic_gateways.encrypted_config_storage.inner'))
-                ->addArgument(new Reference('pay.dynamic_gateways.cypher'))
-            ;
         }
 
         // deprecated

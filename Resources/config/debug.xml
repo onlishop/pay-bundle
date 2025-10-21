@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="true" />
+
+        <!-- Extensions -->
+
+        <service id="pay.extension.log_executed_actions" class="Onlishop\Bundle\PayBundle\Bridge\Psr\Log\LogExecutedActionsExtension">
+            <argument type="service" id="logger" on-invalid="ignore" />
+
+            <tag name="monolog.logger" channel="pay"/>
+            <tag name="pay.extension" all="true" alias="log_executed_actions" />
+        </service>
+
+        <service id="payum.profiler.payum_collector" class="Onlishop\Bundle\PayBundle\Profiler\PayCollector">
+            <tag name="pay.extension" all="true" alias="profile_collector" prepend="true" />
+            <tag name="data_collector" template="@Pay/Profiler/pay.html.twig" id="pay" />
+        </service>
+    </services>
+</container>

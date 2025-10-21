@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace HeyPay\Bundle\PayBundle\DependencyInjection\Factory\Storage;
+namespace Onlishop\Bundle\PayBundle\DependencyInjection\Factory\Storage;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
