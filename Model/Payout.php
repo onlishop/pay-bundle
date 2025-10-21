@@ -78,7 +78,7 @@ class Payout implements PayoutInterface
         return $this->details;
     }
 
-    public function setDetails(object $details): void
+    public function setDetails(object|array $details): void
     {
         if ($details instanceof \Traversable) {
             $details = iterator_to_array($details);

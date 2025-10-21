@@ -6,7 +6,7 @@ use Onlishop\Bundle\PayBundle\Bridge\Spl\ArrayObject;
 use Onlishop\Bundle\PayBundle\DI\ContainerConfiguration;
 use Psr\Container\ContainerInterface;
 
-class GatewayFactory implements ContainerConfiguration, GatewayFactoryConfigInterface
+class GatewayFactory implements ContainerConfiguration
 {
     protected CoreGatewayFactory $coreGatewayFactory;
 
@@ -26,7 +26,8 @@ class GatewayFactory implements ContainerConfiguration, GatewayFactoryConfigInte
 
     public function configureContainer(): array
     {
-        $config = ArrayObject::ensureArrayObject($this->defaultConfig);
+        $config = ArrayObject::ensureArrayObject([]);
+        $config->defaults($this->defaultConfig);
         $config->defaults($this->coreGatewayFactory->configureContainer());
         $this->populateConfig($config);
 
@@ -36,16 +37,6 @@ class GatewayFactory implements ContainerConfiguration, GatewayFactoryConfigInte
     public function createGateway(ContainerInterface $container): Gateway
     {
         return $this->coreGatewayFactory->createGateway($container);
-    }
-
-    public function getActions(): array
-    {
-        return [];
-    }
-
-    public function getExtensions(): array
-    {
-        return [];
     }
 
     protected function populateConfig(ArrayObject $config): void

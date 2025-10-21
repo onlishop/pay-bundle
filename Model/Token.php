@@ -28,7 +28,7 @@ class Token implements TokenInterface
         return $this->details;
     }
 
-    public function setDetails(object $details): void
+    public function setDetails(iterable $details): void
     {
         if ($details instanceof IdentityInterface) {
             $this->details = $details;

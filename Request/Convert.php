@@ -2,13 +2,16 @@
 
 namespace Onlishop\Bundle\PayBundle\Request;
 
+use Onlishop\Bundle\PayBundle\Security\TokenInterface;
+
 class Convert
 {
-    protected mixed $result;
+   protected mixed $result;
 
     public function __construct(
         protected mixed $source,
         protected string $to,
+        protected ?TokenInterface $token = null
     ) {
     }
 
@@ -20,6 +23,11 @@ class Convert
     public function getTo(): string
     {
         return $this->to;
+    }
+
+    public function getToken(): ?TokenInterface
+    {
+        return $this->token;
     }
 
     public function getResult(): mixed

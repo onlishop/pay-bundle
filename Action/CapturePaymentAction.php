@@ -2,6 +2,7 @@
 
 namespace Onlishop\Bundle\PayBundle\Action;
 
+use Onlishop\Bundle\PayBundle\Bridge\Spl\ArrayObject;
 use Onlishop\Bundle\PayBundle\Exception\RequestNotSupportedException;
 use Onlishop\Bundle\PayBundle\GatewayAwareInterface;
 use Onlishop\Bundle\PayBundle\GatewayAwareTrait;
@@ -21,16 +22,17 @@ class CapturePaymentAction implements ActionInterface, GatewayAwareInterface
     public function execute(mixed $request): void
     {
         RequestNotSupportedException::assertSupports($this, $request);
-        /** @var Payment $payment */
+
+        /** @var PaymentInterface $payment */
         $payment = $request->getModel();
         $this->gateway->execute($status = new GetHumanStatus($payment));
 
         if ($status->isNew()) {
-            $this->gateway->execute($convert = new Convert($payment, 'array'));
+            $this->gateway->execute($convert = new Convert($payment, 'array', $request->getToken()));
             $payment->setDetails($convert->getResult());
         }
 
-        $details = $payment->getDetails();
+        $details = ArrayObject::ensureArrayObject($payment->getDetails());
 
         $request->setModel($details);
         try {

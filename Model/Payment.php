@@ -2,7 +2,7 @@
 
 namespace Onlishop\Bundle\PayBundle\Model;
 
-class Payment
+class Payment implements PaymentInterface
 {
     protected ?string $description = null;
 
