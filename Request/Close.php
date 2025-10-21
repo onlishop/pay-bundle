@@ -4,5 +4,4 @@ namespace Onlishop\Bundle\PayBundle\Request;
 
 class Close extends Generic
 {
-
 }

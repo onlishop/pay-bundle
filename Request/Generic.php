@@ -9,7 +9,7 @@ use Onlishop\Bundle\PayBundle\Storage\IdentityInterface;
 
 abstract class Generic implements ModelAggregateInterface, ModelAwareInterface
 {
- protected mixed $firstModel = null;
+    protected mixed $firstModel = null;
 
     protected ?TokenInterface $token = null;
 

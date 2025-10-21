@@ -6,7 +6,7 @@ use Onlishop\Bundle\PayBundle\Security\TokenInterface;
 
 class Convert
 {
-   protected mixed $result;
+    protected mixed $result;
 
     public function __construct(
         protected mixed $source,

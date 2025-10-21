@@ -25,8 +25,8 @@ class ConvertPaymentAction implements ActionInterface
         $biz_content['subject'] = $details['subject'];
         $biz_content['total_amount'] = number_format($payment->getTotalAmount() / 100, 2, '.', '');
 
-        $details['biz_content'] = array_replace_recursive($biz_content, (array)$details);
-        $request->setResult((array)$details);
+        $details['biz_content'] = array_replace_recursive($biz_content, (array) $details);
+        $request->setResult((array) $details);
     }
 
     public function supports(mixed $request): bool

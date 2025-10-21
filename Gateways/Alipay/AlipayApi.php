@@ -8,7 +8,9 @@ use Alipay\OpenAPISDK\Util\Model\AlipayConfig;
 class AlipayApi
 {
     protected AlipayConfig $alipayConfig;
+
     protected AlipayConfigUtil $alipayConfigUtil;
+
     /**
      * @param array<string,mixed> $config
      */
@@ -18,7 +20,7 @@ class AlipayApi
         $this->alipayConfig->setAppId($config['appId']);
         $this->alipayConfig->setPrivateKey($config['privateKey']);
         $this->alipayConfig->setAlipayPublicKey($config['alipayPublicKey']);
-        $this->alipayConfig->setServerUrl($config['sandbox'] ?  'https://openapi-sandbox.dl.alipaydev.com' : 'https://openapi.alipay.com');
+        $this->alipayConfig->setServerUrl($config['sandbox'] ? 'https://openapi-sandbox.dl.alipaydev.com' : 'https://openapi.alipay.com');
 
         $this->alipayConfigUtil = new AlipayConfigUtil($this->alipayConfig);
     }
@@ -32,6 +34,4 @@ class AlipayApi
     {
         return $this->alipayConfigUtil;
     }
-
-
 }
