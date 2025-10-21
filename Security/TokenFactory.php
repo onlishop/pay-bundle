@@ -2,39 +2,26 @@
 
 namespace Onlishop\Bundle\PayBundle\Security;
 
-use League\Uri\Components\HierarchicalPath;
-use League\Uri\Components\Path;
-use League\Uri\Http as HttpUri;
-use League\Uri\Modifier;
 use Onlishop\Bundle\PayBundle\Registry\StorageRegistryInterface;
 use Onlishop\Bundle\PayBundle\Storage\StorageInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class TokenFactory extends AbstractTokenFactory
 {
-    protected HttpUri $baseUrl;
+    protected UrlGeneratorInterface $urlGenerator;
 
-    /**
-     * @param StorageInterface<TokenInterface> $tokenStorage
-     */
-    public function __construct(StorageInterface $tokenStorage, StorageRegistryInterface $storageRegistry, ?string $baseUrl = null)
+    public function __construct(StorageInterface $tokenStorage, StorageRegistryInterface $storageRegistry, UrlGeneratorInterface $urlGenerator)
     {
-        parent::__construct($tokenStorage, $storageRegistry);
+        $this->urlGenerator = $urlGenerator;
 
-        $this->baseUrl = $baseUrl ? HttpUri::new($baseUrl) : HttpUri::fromServer($_SERVER);
+        parent::__construct($tokenStorage, $storageRegistry);
     }
 
-    protected function generateUrl(string $path, array $parameters = []): string
+    /**
+     * @param array<string, mixed> $parameters
+     */
+    protected function generateUrl($path, array $parameters = []): string
     {
-        $hierarchicalPath = HierarchicalPath::fromUri($this->baseUrl);
-        if (pathinfo($hierarchicalPath->getBasename(), \PATHINFO_EXTENSION) === 'php') {
-            $newPath = (new Modifier($this->baseUrl))->replaceBasename(Path::new($path)->withoutLeadingSlash());
-        } else {
-            $newPath = (new Modifier($this->baseUrl))->appendSegment($path)->getUriString();
-        }
-
-        $uri = $this->baseUrl->withPath($newPath);
-        $uri = $this->addQueryToUri($uri, $parameters);
-
-        return (string) $uri;
+        return $this->urlGenerator->generate($path, $parameters, UrlGeneratorInterface::ABSOLUTE_URL);
     }
 }

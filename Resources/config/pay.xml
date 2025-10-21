@@ -6,5 +6,57 @@
 
     <services>
         <defaults public="true"/>
+
+        <service id="pay.builder" class="Onlishop\Bundle\PayBundle\PayBuilder" public="false">
+            <call method="setMainRegistry">
+                <argument type="service" id="pay.static_registry"/>
+            </call>
+            <call method="setTokenStorage">
+                <argument type="service" id="pay.security.token_storage"/>
+            </call>
+            <call method="setCoreGatewayFactory">
+                <argument type="service" id="pay.core_gateway_factory_builder" />
+            </call>
+        </service>
+
+        <service id="pay" class="Onlishop\Bundle\PayBundle\Pay" lazy="true">
+            <factory service="pay.builder" method="getPay" />
+        </service>
+
+        <service id="Onlishop\Bundle\PayBundle\Pay" alias="pay"/>
+
+        <service id="pay.static_registry" class="Onlishop\Bundle\PayBundle\ContainerAwareRegistry">
+            <argument type="collection"/> <!-- gateways services. this should be replaced while container is built -->
+            <argument type="collection"/> <!-- storages services. this should be replaced while container is built -->
+            <argument type="collection"/> <!-- gateways factories services. this should be replaced while container is built -->
+            <argument type="service" id="service_container"/>
+        </service>
+
+        <service id="pay.core_gateway_factory_builder" class="Onlishop\Bundle\PayBundle\Builder\CoreGatewayFactoryBuilder" public="false"/>
+
+        <service id="pay.security.token_storage" abstract="true" />
+
+
+        <service id="pay.extension.storage.prototype" class="Onlishop\Bundle\PayBundle\Extension\StorageExtension" abstract="true" public="false">
+            <argument/> <!-- this should be replaced with real storage service -->
+        </service>
+
+        <service id="pay.action.get_http_request" class="Onlishop\Bundle\PayBundle\Action\GetHttpRequestAction">
+            <call method="setHttpRequestStack">
+                <argument type="service" id="request_stack" />
+            </call>
+        </service>
+
+        <service id="pay.converter.reply_to_http_response" class="Onlishop\Bundle\PayBundle\ReplyToSymfonyResponseConverter" />
+
+        <service id="pay.listener.reply_to_http_response" class="Onlishop\Bundle\PayBundle\EventListener\ReplyToHttpResponseListener">
+            <argument type="service" id="pay.converter.reply_to_http_response" />
+
+            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="128" />
+        </service>
+
+        <service id="alipay" class="Onlishop\Bundle\PayBundle\Gateways\Alipay\AlipayGatewayFactory">
+            <tag name="pay.gateway_factory" factory="alipay"/>
+        </service>
     </services>
 </container>

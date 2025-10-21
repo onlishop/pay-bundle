@@ -2,7 +2,6 @@
 
 namespace Onlishop\Bundle\PayBundle\Storage;
 
-
 use Onlishop\Bundle\PayBundle\Exception\LogicException;
 use Onlishop\Bundle\PayBundle\Model\Identity;
 
