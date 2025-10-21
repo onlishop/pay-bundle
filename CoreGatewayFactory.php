@@ -35,13 +35,11 @@ class CoreGatewayFactory implements ContainerConfiguration, GatewayFactoryConfig
 
     public function createGateway(
         ContainerInterface $container,
-    ): Gateway
-    {
-
+    ): Gateway {
         $gateway = new Gateway();
 
         foreach ($this->getActions() as $action) {
-            if (is_string($action)) {
+            if (\is_string($action)) {
                 $action = $container->get($action);
             }
 
@@ -49,12 +47,13 @@ class CoreGatewayFactory implements ContainerConfiguration, GatewayFactoryConfig
         }
 
         foreach ($this->getExtensions() as $extension) {
-            if (is_string($extension)) {
+            if (\is_string($extension)) {
                 $extension = $container->get($extension);
             }
 
             $gateway->addExtension($extension, $extension instanceof PrependExtensionInterface);
         }
+
         return $gateway;
     }
 

@@ -4,5 +4,5 @@ namespace Onlishop\Bundle\PayBundle\Model;
 
 interface DetailsAwareInterface
 {
-    public function setDetails(iterable $details): void;
+    public function setDetails(object $details): void;
 }

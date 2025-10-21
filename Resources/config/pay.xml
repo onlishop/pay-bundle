@@ -8,9 +8,11 @@
         <defaults public="true"/>
 
         <service id="pay.builder" class="Onlishop\Bundle\PayBundle\PayBuilder" public="false">
-            <argument type="service" id="pay.security.token_storage"/>
             <call method="setMainRegistry">
                 <argument type="service" id="pay.static_registry"/>
+            </call>
+             <call method="setTokenStorage">
+                <argument type="service" id="pay.security.token_storage"/>
             </call>
             <call method="setCoreGatewayFactory">
                 <argument type="service" id="pay.core_gateway_factory_builder" />

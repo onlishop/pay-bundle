@@ -14,11 +14,9 @@ class Payment
 
     protected mixed $details = [];
 
-    public function __construct(
-        protected string $number,
-        protected int $totalAmount
-    ) {
-    }
+    protected string $number;
+
+    protected int $totalAmount;
 
     public function setDetails(iterable $details): void
     {

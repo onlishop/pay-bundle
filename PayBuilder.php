@@ -8,6 +8,8 @@ use Onlishop\Bundle\PayBundle\DI\ContainerConfiguration;
 use Onlishop\Bundle\PayBundle\Exception\LogicException;
 use Onlishop\Bundle\PayBundle\Extension\StorageExtension;
 use Onlishop\Bundle\PayBundle\Model\GatewayConfigInterface;
+use Onlishop\Bundle\PayBundle\Model\Payment;
+use Onlishop\Bundle\PayBundle\Model\Payout;
 use Onlishop\Bundle\PayBundle\Model\Token;
 use Onlishop\Bundle\PayBundle\Registry\DynamicRegistry;
 use Onlishop\Bundle\PayBundle\Registry\FallbackRegistry;
@@ -81,9 +83,10 @@ class PayBuilder
      */
     protected array $genericTokenFactoryPaths = [];
 
-    public function __construct(
-        protected TokenFactoryInterface $tokenFactory,
-    ) {
+    protected ?TokenFactoryInterface $tokenFactory = null;
+
+    public function __construct()
+    {
     }
 
     /**
@@ -139,8 +142,9 @@ class PayBuilder
 
         $this
             ->setTokenStorage($tokenStorage)
-            ->addStorage(Pay::class, new FilesystemStorage(sys_get_temp_dir(), Pay::class, 'number'))
-            ->addStorage(ArrayObject::class, new FilesystemStorage(sys_get_temp_dir(), ArrayObject::class));
+            ->addStorage(Payment::class, new FilesystemStorage(sys_get_temp_dir(), Pay::class, 'number'))
+            ->addStorage(ArrayObject::class, new FilesystemStorage(sys_get_temp_dir(), ArrayObject::class))
+            ->addStorage(Payout::class, new FilesystemStorage(sys_get_temp_dir(), Payout::class));
 
         return $this;
     }

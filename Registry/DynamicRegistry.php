@@ -6,6 +6,7 @@ use DI\ContainerBuilder;
 use Onlishop\Bundle\PayBundle\DI\ContainerConfiguration;
 use Onlishop\Bundle\PayBundle\GatewayFactoryConfigInterface;
 use Onlishop\Bundle\PayBundle\GatewayInterface;
+use Onlishop\Bundle\PayBundle\Model\GatewayConfigInterface;
 use Onlishop\Bundle\PayBundle\Storage\StorageInterface;
 
 /**

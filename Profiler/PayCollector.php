@@ -2,7 +2,6 @@
 
 namespace Onlishop\Bundle\PayBundle\Profiler;
 
-
 use Onlishop\Bundle\PayBundle\Extension\Context;
 use Onlishop\Bundle\PayBundle\Extension\ExtensionInterface;
 use Symfony\Component\HttpFoundation\Request;
